@@ -38,8 +38,17 @@ namespace DataCRUDAjax.Models
 
         public int Add(Employee emp) {
             int i;
-
-            return i;
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                con.Open();
+                SqlCommand com = new SqlCommand("InsertUpdateEmployee", con);
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@Id", emp.EmployeeID);
+                com.Parameters.AddWithValue("@Name", emp.Name);
+                com.Parameters.AddWithValue("@Age", emp.Age);
+                i = com.ExecuteNonQuery();
+            }
+                return i;
         }
     }
 }
